@@ -309,6 +309,7 @@ void edit_val(struct hive *h, int nkofs, char *path)
 
     printf("\nNow enter new strings, one by one.\n");
     printf("Enter nothing to keep old.\n");
+    printf("Current string size:%i, max:%i\n",i,SZ_MAX);
     if (type == REG_MULTI_SZ) {
       printf("'--n' to quit (remove rest of strings)\n");
       printf("'--i' insert new string at this point\n");
@@ -324,7 +325,7 @@ void edit_val(struct hive *h, int nkofs, char *path)
 
       printf("[%2d]: %s\n",n, insert == 1 ? "[INSERT]" : ((i < (len>>1)-1 ) ? origstring+i : "[NEW]"));
       if (insert) insert++;
-      if (!go) fmyinput("-> ",inbuf, 500);
+      if (!go) fmyinput("-> ",inbuf, 15000);
       else *inbuf = 0;
       if (*inbuf && strcmp("--q", inbuf)) {
 	if (!strcmp("--n", inbuf) || !strcmp("--Q", inbuf)) { /* Zap rest */
@@ -334,6 +335,7 @@ void edit_val(struct hive *h, int nkofs, char *path)
 	  if (newstring) newstring = realloc(newstring, in+strlen(inbuf)+1);
 	  else newstring = malloc(in+strlen(inbuf)+1);
 	  strcpy(newstring+in, inbuf);
+	   printf("!!!%s!!!,%i\r\n",newstring,strlen(inbuf)+1);
 	  in += strlen(inbuf)+1;
 	} else {
 	  insert = 1;
@@ -378,7 +380,7 @@ void edit_val(struct hive *h, int nkofs, char *path)
       newkv->len = in<<1;
       VERBF(h,"newkv->len: %d\n",newkv->len);
       cheap_ascii2uni(newstring, (char *)&(newkv->data), in);
-
+      printf("$$%s$$,%i\r",newstring, strlen(newstring));
       d = 1;
 
       FREE(kv);
