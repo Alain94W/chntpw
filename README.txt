@@ -205,3 +205,13 @@ vk-offs    size    type           name
 0x003228   508  REG_BINARY       <V>
 
 For more techincal info, look it up in the source code.
+
+
+
+UPDATE 2022 :
+Install dep en debian 11 :
+sudo apt install git gcc make cmake libssl-dev openssl gcc-multilib linux-headers-$(uname -r)
+cd /usr/include/openssl
+sudo ln -s /usr/include/x86_64-linux-gnu/openssl/opensslconf.h .
+cd chntpw
+make
